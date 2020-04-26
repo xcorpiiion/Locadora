@@ -28,15 +28,23 @@ public class LocadoraController {
 		return "Automovel cadastrado com sucesso";
 	}
 	
-	public List<Automovel> retornarAutomovel(Automovel automovel) {
+	public List<Automovel> retornarTodosAutomoveis(Automovel automovel) {
 		return iLocadoraService.retornaTodosAutomoveis(automovel);
 	}
 	
-	public Automovel retornarAutomovelPorId(Automovel automovel, Long id) {
-		return (Automovel) iLocadoraService.retornaAutomovelPorId(id, automovel);
+	public List<Locadora> retornarTodasLocadoras(Locadora locadora) {
+		return iLocadoraService.retornaTodasLocadoras(locadora);
 	}
 	
-	public boolean verificaAutomovelEstaCadastrado(List<Automovel> automoveis, Locadora locadora) {
-		return iLocadoraService.verificaAutomovelEstaCadastrado(automoveis, locadora);
+	public Automovel retornarAutomovelPorId(Automovel automovel, Long id) {
+		return iLocadoraService.retornaAutomovelPorId(id, automovel);
+	}
+	
+	public Locadora retornarLocadoraPorId(Locadora locadora, Long id) {
+		return iLocadoraService.retornaLocadoraPorId(id, locadora);
+	}
+	
+	public boolean verificaAutomovelEstaCadastrado(Automovel automovel, Locadora locadora) {
+		return iLocadoraService.verificaAutomovelEstaCadastrado(automovel, locadora);
 	}
 }

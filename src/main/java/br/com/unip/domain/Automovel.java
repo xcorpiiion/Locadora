@@ -1,8 +1,5 @@
 package br.com.unip.domain;
 
-import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
-import static org.apache.commons.lang3.builder.ToStringStyle.JSON_STYLE;
-
 import java.math.BigDecimal;
 
 import javax.persistence.CascadeType;
@@ -34,18 +31,18 @@ public class Automovel {
 	
 	private BigDecimal preco;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.DETACH)
 	private Locadora locadora;
 
 	public Automovel() {
 		
 	}
-	
-	public Automovel(Marca marca, Modelo modelo, BigDecimal preco) {
-		super();
+
+	public Automovel(Marca marca, Modelo modelo, BigDecimal preco, Locadora locadora) {
 		this.marca = marca;
 		this.modelo = modelo;
 		this.preco = preco;
+		this.locadora = locadora;
 	}
 
 	public long getId() {
@@ -107,7 +104,8 @@ public class Automovel {
 
 	@Override
 	public String toString() {
-		return reflectionToString(this, JSON_STYLE);
+		return "Identificador: " + this.getId() + " - Marca: " + this.getMarca().getMarca() + " - Modelo: " + this.getModelo().getModelo()
+		+ " - R$: " + this.getPreco();
 	}
 	
 }

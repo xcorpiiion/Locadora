@@ -8,8 +8,12 @@ import br.com.unip.domain.Locadora;
 public interface ILocadoraService {
 
 	Automovel retornaAutomovelPorId(Long id, Automovel automovel);
+	
+	Locadora retornaLocadoraPorId(Long id, Locadora locadora);
 
 	List<Automovel> retornaTodosAutomoveis(Automovel automovel);
+	
+	List<Locadora> retornaTodasLocadoras(Locadora locadora);
 
 	void alugarAutomovel(int quantidade);
 	
@@ -17,5 +21,5 @@ public interface ILocadoraService {
 	
 	void cadastrarLocadora(Locadora locadora);
 	
-	boolean verificaAutomovelEstaCadastrado(List<Automovel> automoveis, Locadora locadora);
+	boolean verificaAutomovelEstaCadastrado(Automovel automovel, Locadora locadora);
 }

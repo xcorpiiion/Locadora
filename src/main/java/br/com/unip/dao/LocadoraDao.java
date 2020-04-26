@@ -39,24 +39,29 @@ public class LocadoraDao implements ILocadoraDao {
 	@Override
 	public void cadastrarLocadora(Locadora locadora) {
 		ConectionBancoDados.insereDadosNoBanco(entityManager, locadora);
-		
+
 	}
 
 	@Override
-	public boolean verificaAutomovelEstaCadastrado(List<Automovel> automoveis, Locadora locadora) {
-		if(locadora.getAutomoveis() == null) {
+	public boolean verificaAutomovelEstaCadastrado(Automovel automovel, Locadora locadora) {
+		if (locadora.getAutomoveis() == null) {
 			return false;
+		} else if (automovel.getLocadora() == null || automovel.getLocadora().equals(locadora)) {
+			return true;
 		}
-		for(Automovel automovelFor : automoveis) {
-			for(int i = 0; i < locadora.getAutomoveis().size(); i++) {
-				if(automovelFor == locadora.getAutomoveis().get(i)) {
-					return false;
-				}
-			}
-		}
-		return true;
+
+		return false;
 	}
 
-	
+	@Override
+	public Locadora retornaLocadoraPorId(Long id, Locadora locadora) {
+		return (Locadora) ConectionBancoDados.retornaDadoPorId(entityManager, locadora, id);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Locadora> retornaTodasLocadoras(Locadora locadora) {
+		return (List<Locadora>) ConectionBancoDados.retornaTodosDados(entityManager, locadora);
+	}
 
 }

@@ -44,8 +44,18 @@ public class LocadoraService implements ILocadoraService {
 	}
 
 	@Override
-	public boolean verificaAutomovelEstaCadastrado(List<Automovel> automoveis, Locadora locadora) {
-		return iLocadoraDao.verificaAutomovelEstaCadastrado(automoveis, locadora);
+	public boolean verificaAutomovelEstaCadastrado(Automovel automovel, Locadora locadora) {
+		return iLocadoraDao.verificaAutomovelEstaCadastrado(automovel, locadora);
+	}
+
+	@Override
+	public Locadora retornaLocadoraPorId(Long id, Locadora locadora) {
+		return iLocadoraDao.retornaLocadoraPorId(id, locadora);
+	}
+
+	@Override
+	public List<Locadora> retornaTodasLocadoras(Locadora locadora) {
+		return iLocadoraDao.retornaTodasLocadoras(locadora);
 	}
 
 }

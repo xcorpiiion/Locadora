@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import br.com.unip.domain.Automovel;
+import br.com.unip.domain.Locadora;
 import br.com.unip.domain.Marca;
 import br.com.unip.domain.Modelo;
 
@@ -16,8 +17,8 @@ public final class AutomovelView {
 		
 	}
 	
-	public static Automovel cadastrarAutomovel() {
-		return new Automovel(cadastrarMarca(), cadastrarModelo(), atribuiPrecoAoAutomovel());
+	public static Automovel cadastrarAutomovel(Locadora locadora) {
+		return new Automovel(cadastrarMarca(), cadastrarModelo(), atribuiPrecoAoAutomovel(), locadora);
 	}
 
 	private static BigDecimal atribuiPrecoAoAutomovel() {

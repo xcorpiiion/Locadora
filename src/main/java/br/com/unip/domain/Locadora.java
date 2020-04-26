@@ -1,8 +1,5 @@
 package br.com.unip.domain;
 
-import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
-import static org.apache.commons.lang3.builder.ToStringStyle.JSON_STYLE;
-
 import java.util.List;
 import java.util.Set;
 
@@ -41,7 +38,7 @@ public class Locadora {
 	@OneToOne(cascade = CascadeType.PERSIST)
 	private Endereco endereco;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "locadora")
+	@OneToMany(cascade = CascadeType.DETACH, mappedBy = "locadora")
 	private List<Automovel> automoveis;
 
 	public Locadora() {
@@ -121,7 +118,7 @@ public class Locadora {
 
 	@Override
 	public String toString() {
-		return reflectionToString(this, JSON_STYLE);
+		return "Identificador: " + this.id + " - Nome: " + this.getNome();
 	}
 
 }
