@@ -19,16 +19,10 @@ public class MainClass {
 			Object[] escolhaClienteOrLocadora = { "Cliente", "Locadora" };
 			String resposta = (String) JOptionPane.showInputDialog(null, "Escolher se você é um Cliente ou Locadora",
 					"Cliente ou Locadora", JOptionPane.QUESTION_MESSAGE, null, escolhaClienteOrLocadora, null);
-			switch (resposta) {
-			case "Locadora":
+			if(resposta.equalsIgnoreCase("locadora")) {
 				LocadoraView.escolherCadastroCarroOuCadastroLocadora();
-				break;
-			case "Cliente":
+			} else {
 				JOptionPane.showMessageDialog(null, "Cliente");
-				break;
-			default:
-				JOptionPane.showMessageDialog(null, "Digito invalido");
-				break;
 			}
 		}
 	}

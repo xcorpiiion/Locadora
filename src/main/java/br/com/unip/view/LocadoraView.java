@@ -39,7 +39,7 @@ public final class LocadoraView {
 			if (buscaLocadoraPeloId() != null) {
 				JOptionPane.showMessageDialog(null, "Locadora " + locadora.getNome(),
 						"Login Realizado - Dados da locadora", JOptionPane.INFORMATION_MESSAGE);
-				verificaSeInsereAutomovelNaLocadora(cadastraAutomovel);
+				verificaSeInsereOuMostraListaAutomoveisDaLocadora();
 			}
 			break;
 		default:
@@ -56,9 +56,8 @@ public final class LocadoraView {
 		for (int i = 0; i < locadoras.size(); i++) {
 			locadoraDados[i] = locadoras.get(i);
 		}
-		Locadora locadoraSelecionada = (Locadora) JOptionPane.showInputDialog(null,
-				"Escolha a sua Locadora: ", "Cadastro - Inseri Locadora", JOptionPane.INFORMATION_MESSAGE,
-				null, locadoraDados, null);
+		Locadora locadoraSelecionada = (Locadora) JOptionPane.showInputDialog(null, "Escolha a sua Locadora: ",
+				"Cadastro - Inseri Locadora", JOptionPane.INFORMATION_MESSAGE, null, locadoraDados, null);
 
 		locadora = locadoraController.retornarLocadoraPorId(locadoraSelecionada, locadoraSelecionada.getId());
 		if (locadora == null) {
@@ -90,15 +89,43 @@ public final class LocadoraView {
 		Set<Telefone> telefones = TelefoneView.cadastrarTelefone();
 		Endereco endereco = EnderecoView.cadastrarEndereco();
 		locadora = new Locadora(nome, telefones, endereco);
-		verificaSeInsereAutomovelNaLocadora(cadastraAutomovel);
+		verificaSeInsereOuMostraListaAutomoveisDaLocadora();
 		cadastrarLocadora(locadora);
 	}
 
-	private static void verificaSeInsereAutomovelNaLocadora(Object[] cadastraAutomovel) {
-		String resposta = (String) JOptionPane.showInputDialog(null, "Deseja inserir um Automovel: ",
-				"Cadastro - Inseri Automovel", JOptionPane.INFORMATION_MESSAGE, null, cadastraAutomovel, null);
-		if (resposta.equalsIgnoreCase("sim")) {
+	private static void verificaSeInsereOuMostraListaAutomoveisDaLocadora() {
+		Object[] escolhaVerOrInserirAutomovel = { "Ver Automoveis", "Inserir Automovel" };
+		String resposta = (String) JOptionPane.showInputDialog(null, "Escolha uma opão: ", "Opções",
+				JOptionPane.INFORMATION_MESSAGE, null, escolhaVerOrInserirAutomovel, null);
+		if (resposta.equalsIgnoreCase("Inserir Automovel")) {
 			retornaAutomoveisOuCadastraAutomovelCasoNaoTenha(new Automovel());
+		} else {
+			List<Automovel> automoveis = locadoraController.retornarTodosAutomoveis(new Automovel());
+			
+			removeAutomoveisNaoCadastradosDaLista(automoveis);
+			Automovel[] automoveisDados = new Automovel[automoveis.size()];
+			
+			addAutomoveisCadastradosParaMostraNaTela(automoveis, automoveisDados);
+			JOptionPane.showInputDialog(null, "Esses são todos os seus Automoveis cadastrados: ", "Lista de Automoveis",
+					JOptionPane.INFORMATION_MESSAGE, null, automoveisDados, null);
+		}
+	}
+
+	private static void addAutomoveisCadastradosParaMostraNaTela(List<Automovel> automoveis,
+			Automovel[] automoveisDados) {
+		for (int i = 0; i < automoveis.size(); i++) {
+			if (locadoraController.verificaAutomovelEstaCadastrado(automoveis.get(i), locadora)) {
+				automoveisDados[i] = automoveis.get(i);
+			}
+		}
+	}
+
+	private static void removeAutomoveisNaoCadastradosDaLista(List<Automovel> automoveis) {
+		for (int i = 0; i < automoveis.size(); i++) {
+			if (!locadoraController.verificaAutomovelEstaCadastrado(automoveis.get(i), locadora)) {
+				automoveis.remove(i);
+				i--;
+			}
 		}
 	}
 
@@ -124,14 +151,13 @@ public final class LocadoraView {
 				automoveisDados[i] = automoveis.get(i);
 			}
 			Automovel automovelSelecionado = (Automovel) JOptionPane.showInputDialog(null,
-					"Deseja inserir um Automovel: ", "Cadastro - Inseri Automovel", JOptionPane.INFORMATION_MESSAGE,
+					"Selecione o Automovel que deseja inserir: ", "Cadastro - Inseri Automovel", JOptionPane.INFORMATION_MESSAGE,
 					null, automoveisDados, null);
 			verificaAutomovelEstaCadastrado(locadoraController, automovelSelecionado);
 		}
 	}
 
-	private static void verificaAutomovelEstaCadastrado(LocadoraController locadoraController,
-			Automovel automovel) {
+	private static void verificaAutomovelEstaCadastrado(LocadoraController locadoraController, Automovel automovel) {
 		automovel = locadoraController.retornarAutomovelPorId(automovel, automovel.getId());
 		if (locadoraController.verificaAutomovelEstaCadastrado(automovel, locadora)) {
 			JOptionPane.showMessageDialog(null, "O Automovel já esta cadastrado", "Cadastro - Falha",
