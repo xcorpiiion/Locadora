@@ -6,6 +6,7 @@ import br.com.unip.dao.ClienteDao;
 import br.com.unip.dao.IClienteDao;
 import br.com.unip.domain.Automovel;
 import br.com.unip.domain.Cliente;
+import br.com.unip.domain.Locadora;
 
 public class ClienteService implements IClienteService {
 
@@ -24,9 +25,8 @@ public class ClienteService implements IClienteService {
 	}
 
 	@Override
-	public void alugarAutomovel(int quantidade) {
-		iClienteDao.alugarAutomovel(quantidade);
-
+	public void alugarAutomovel(Cliente cliente) {
+		iClienteDao.alugarAutomovel(cliente);
 	}
 
 	@Override
@@ -38,6 +38,16 @@ public class ClienteService implements IClienteService {
 	@Override
 	public void cadastrarCliente(Cliente cliente) {
 		iClienteDao.cadastrarCliente(cliente);
+	}
+
+	@Override
+	public List<Locadora> retornaTodasLocadoras(Locadora locadora) {
+		return iClienteDao.retornaTodasLocadoras(locadora);
+	}
+
+	@Override
+	public Locadora retornaLocadoraPorId(Long id, Locadora locadora) {
+		return iClienteDao.retornaLocadoraPorId(id, locadora);
 	}
 
 }

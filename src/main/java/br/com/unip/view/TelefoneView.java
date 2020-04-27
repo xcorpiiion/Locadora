@@ -18,10 +18,12 @@ public final class TelefoneView {
 	}
 
 	public static Set<Telefone> cadastrarTelefone() {
-		String phone = JOptionPane.showInputDialog(null, "Informe o nome número do telefone: ", "Cadastro - Telefone",
+		TipoTelefone tipoTelefone = cadastrarTipoTelefone();
+		DddBrasil dddTelefone = TelefoneView.cadastrarDddTelefone();
+		String phone = JOptionPane.showInputDialog(null, "Informe o número do telefone: ", "Cadastro - Telefone",
 				JOptionPane.INFORMATION_MESSAGE);
 		Set<Telefone> telefones = new HashSet<>();
-		telefones.add(new Telefone(phone, TelefoneView.cadastrarTipoTelefone(), TelefoneView.cadastrarDddTelefone()));
+		telefones.add(new Telefone(phone, tipoTelefone, dddTelefone));
 		return telefones;
 	}
 	
@@ -29,7 +31,7 @@ public final class TelefoneView {
 		List<TipoTelefone> tiposTelefones = Arrays.asList(TipoTelefone.values());
 		Object[] tipoTelefone = new Object[TipoTelefone.values().length];
 		for (int i = 0; i < tiposTelefones.size(); i++) {
-			tipoTelefone[i] = tiposTelefones.get(i).name();
+			tipoTelefone[i] = tiposTelefones.get(i).getTipoTelefone();
 		}
 		String nomeTipoTelefone = (String) JOptionPane.showInputDialog(null, "Informe o tipo de telefone: ", "Cadastro",
 				JOptionPane.QUESTION_MESSAGE, null, tipoTelefone, null);

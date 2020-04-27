@@ -6,9 +6,19 @@ package br.com.unip.domain;
 public enum TipoTelefone {
 
 	/** The fixo. */
-	FIXO,
+	FIXO("Fixo"),
 
 	/** The movel. */
-	MOVEL;
+	MOVEL("Movel");
+	
+	private String tipoTelefone;
 
+	private TipoTelefone(String tipoTelefone) {
+		this.tipoTelefone = tipoTelefone;
+	}
+
+	public String getTipoTelefone() {
+		return tipoTelefone;
+	}
+	
 }

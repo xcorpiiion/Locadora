@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 
 import br.com.unip.domain.Automovel;
 import br.com.unip.domain.Cliente;
+import br.com.unip.domain.Locadora;
 
 public class ClienteDao implements IClienteDao {
 
@@ -22,8 +23,8 @@ public class ClienteDao implements IClienteDao {
 	}
 
 	@Override
-	public void alugarAutomovel(int quantidade) {
-
+	public void alugarAutomovel(Cliente cliente) {
+		ConectionBancoDados.atualizaDados(entityManager, cliente);
 	}
 
 	@Override
@@ -35,6 +36,17 @@ public class ClienteDao implements IClienteDao {
 	@Override
 	public void cadastrarCliente(Cliente cliente) {
 		ConectionBancoDados.insereDadosNoBanco(entityManager, cliente);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Locadora> retornaTodasLocadoras(Locadora locadora) {
+		return (List<Locadora>) ConectionBancoDados.retornaTodosDados(entityManager, locadora);
+	}
+
+	@Override
+	public Locadora retornaLocadoraPorId(Long id, Locadora locadora) {
+		return (Locadora) ConectionBancoDados.retornaDadoPorId(entityManager, locadora, id);
 	}
 
 }

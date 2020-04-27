@@ -3,11 +3,14 @@ package br.com.unip.domain;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 import static org.apache.commons.lang3.builder.ToStringStyle.JSON_STYLE;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -27,7 +30,7 @@ public class Cliente {
 	@Column(nullable = false, scale = 30)
 	private String nome;
 	
-	@Email(message = "Email invalido")
+	@Email
 	@Column(nullable = false, scale = 60)
 	private String email;
 	
@@ -35,18 +38,22 @@ public class Cliente {
 	@Column(nullable = false, scale = 30)
 	private String senha;
 	
+	private BigDecimal dinheiro;
+	
 	@OneToOne
+	@JoinColumn(name = "automovel_id")
 	private Automovel automovelAlugado;
 	
 	public Cliente() {
 		
 	}
 	
-	public Cliente(@NotBlank String nome, @Email(message = "Email invalido") String email,
-			@Size(min = 8, max = 30) String senha) {
+	public Cliente(@NotBlank String nome, @Email String email, @Size(min = 8, max = 30) String senha,
+			BigDecimal dinheiro) {
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
+		this.dinheiro = dinheiro;
 	}
 
 	public long getId() {
@@ -81,12 +88,20 @@ public class Cliente {
 		this.senha = senha;
 	}
 
-	public Automovel getAutomoveisAlugados() {
+	public Automovel getAutomovelAlugado() {
 		return automovelAlugado;
 	}
 
-	public void setAutomoveisAlugados(Automovel automovelAlugado) {
+	public void setAutomovelAlugado(Automovel automovelAlugado) {
 		this.automovelAlugado = automovelAlugado;
+	}
+
+	public BigDecimal getDinheiro() {
+		return dinheiro;
+	}
+
+	public void setDinheiro(BigDecimal dinheiro) {
+		this.dinheiro = dinheiro;
 	}
 
 	@Override

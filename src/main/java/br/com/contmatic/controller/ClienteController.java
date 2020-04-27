@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import br.com.unip.domain.Automovel;
 import br.com.unip.domain.Cliente;
+import br.com.unip.domain.Locadora;
 import br.com.unip.service.IClienteService;
 
 @Controller
@@ -29,12 +30,20 @@ public class ClienteController {
 		return iClienteService.retornaClientePorEmailAndSenha(email, senha, cliente, codicao1, condicao2, respostaCondicao1, respostaCondicao2);
 	}
 
+	public List<Locadora> retornarTodasLocadoras(Locadora locadora) {
+		return iClienteService.retornaTodasLocadoras(locadora);
+	}
+	
+	public Locadora retornarLocadoraPorId(Locadora locadora, Long id) {
+		return iClienteService.retornaLocadoraPorId(id, locadora);
+	}
+	
 	public Automovel retornarAutomovelPorId(Automovel automovel, Long id) {
 		return iClienteService.retornaAutomovelPorId(id, automovel);
 	}
 
-	public void alugaCarro() {
-
+	public void alugaCarro(Cliente cliente) {
+		iClienteService.alugarAutomovel(cliente);
 	}
 
 }

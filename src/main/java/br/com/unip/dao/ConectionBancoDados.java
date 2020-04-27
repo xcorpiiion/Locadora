@@ -1,10 +1,16 @@
 package br.com.unip.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 public final class ConectionBancoDados {
 
@@ -23,7 +29,7 @@ public final class ConectionBancoDados {
 
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
-
+			mostraErroValidacaoDosCampos(yourObject);
 			System.out.println("DELETE: " + e.getMessage());
 		} finally {
 			entityManager.close();
@@ -39,7 +45,7 @@ public final class ConectionBancoDados {
 
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
-
+			mostraErroValidacaoDosCampos(yourObject);
 			System.out.println("DELETE: " + e.getMessage());
 			return null;
 		} finally {
@@ -55,16 +61,32 @@ public final class ConectionBancoDados {
 
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
-
+			mostraErroValidacaoDosCampos(yourObject);
 			System.out.println("DELETE: " + e.getMessage());
 			return null;
 		} finally {
 			entityManager.close();
 		}
 	}
+	
+	public static void atualizaDados(EntityManager entityManager, Object yourObject) {
+		try {
+			entityManager = entityManagerFactory.createEntityManager();
+			entityManager.getTransaction().begin();
+			entityManager.merge(yourObject);
+			entityManager.getTransaction().commit();
+			
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			mostraErroValidacaoDosCampos(yourObject);
+			System.out.println("DELETE: " + e.getMessage());
+		} finally {
+			entityManager.close();
+		}
+	}
 
-	public static Object retornaDadosUsandoDuasCondicoes(EntityManager entityManager, Object yourObject, String condicao1,
-			String condicao2, String respostaCondicao1, String respostaCondicao2) {
+	public static Object retornaDadosUsandoDuasCondicoes(EntityManager entityManager, Object yourObject,
+			String condicao1, String condicao2, String respostaCondicao1, String respostaCondicao2) {
 		try {
 			entityManager = entityManagerFactory.createEntityManager();
 			entityManager.getTransaction().begin();
@@ -76,12 +98,27 @@ public final class ConectionBancoDados {
 
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
-
+			mostraErroValidacaoDosCampos(yourObject);
 			System.out.println("DELETE: " + e.getMessage());
 			return null;
 		} finally {
 			entityManager.close();
 		}
+	}
+
+	private static void mostraErroValidacaoDosCampos(Object yourObject) {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+
+		Set<ConstraintViolation<Object>> constraintViolations = validator.validate(yourObject);
+		StringBuilder erroValidacao = new StringBuilder();
+		if (!constraintViolations.isEmpty()) {
+			for (ConstraintViolation<Object> contraints : constraintViolations) {
+				erroValidacao.append(contraints.getRootBeanClass().getSimpleName()).append(": ")
+						.append(contraints.getPropertyPath()).append(" -> ").append(contraints.getMessage()).append("\n");
+			}
+		}
+		JOptionPane.showMessageDialog(null, erroValidacao.toString(), "Error validação", JOptionPane.ERROR_MESSAGE);
 	}
 
 }

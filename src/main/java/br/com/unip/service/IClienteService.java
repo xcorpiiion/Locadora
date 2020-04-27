@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.unip.domain.Automovel;
 import br.com.unip.domain.Cliente;
+import br.com.unip.domain.Locadora;
 
 public interface IClienteService {
 	
@@ -16,7 +17,11 @@ public interface IClienteService {
 	
 	List<Automovel> retornaTodosAutomoveis(Automovel automovel);
 	
-	void alugarAutomovel(int quantidade);
+	List<Locadora> retornaTodasLocadoras(Locadora locadora);
+	
+	Locadora retornaLocadoraPorId(Long id, Locadora locadora);
+	
+	void alugarAutomovel(Cliente cliente);
 	
 	
 }
