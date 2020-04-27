@@ -46,7 +46,6 @@ public final class LocadoraView {
 			JOptionPane.showMessageDialog(null, "Digito invalido");
 			break;
 		}
-
 	}
 
 	private static Locadora buscaLocadoraPeloId() {

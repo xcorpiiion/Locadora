@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+import br.com.unip.view.ClienteView;
 import br.com.unip.view.LocadoraView;
 
 @SpringBootApplication
@@ -22,7 +23,7 @@ public class MainClass {
 			if(resposta.equalsIgnoreCase("locadora")) {
 				LocadoraView.escolherCadastroCarroOuCadastroLocadora();
 			} else {
-				JOptionPane.showMessageDialog(null, "Cliente");
+				ClienteView.verificaSePossuiLogin();
 			}
 		}
 	}

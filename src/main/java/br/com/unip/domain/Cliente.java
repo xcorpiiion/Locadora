@@ -3,14 +3,12 @@ package br.com.unip.domain;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 import static org.apache.commons.lang3.builder.ToStringStyle.JSON_STYLE;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -37,11 +35,18 @@ public class Cliente {
 	@Column(nullable = false, scale = 30)
 	private String senha;
 	
-	@OneToMany
-	private List<Automovel> automoveisAlugados;
+	@OneToOne
+	private Automovel automovelAlugado;
 	
 	public Cliente() {
 		
+	}
+	
+	public Cliente(@NotBlank String nome, @Email(message = "Email invalido") String email,
+			@Size(min = 8, max = 30) String senha) {
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
 	}
 
 	public long getId() {
@@ -76,12 +81,12 @@ public class Cliente {
 		this.senha = senha;
 	}
 
-	public List<Automovel> getAutomoveisAlugados() {
-		return automoveisAlugados;
+	public Automovel getAutomoveisAlugados() {
+		return automovelAlugado;
 	}
 
-	public void setAutomoveisAlugados(List<Automovel> automoveisAlugados) {
-		this.automoveisAlugados = automoveisAlugados;
+	public void setAutomoveisAlugados(Automovel automovelAlugado) {
+		this.automovelAlugado = automovelAlugado;
 	}
 
 	@Override
